@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node Demo</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body style="background-color: darkorchid">
+    <%- include('partials/nav.ejs') %>
+    <h1 style="color: yellow">Contact Page</h1>
+    <!-- http://127.0.0.1:2020/contact?person=praveen&gender=male&age=18&study=btech -->
+    <p>
+      <%= qs.person %> is <%= qs.gender %> and he is <%= qs.age %> old and he
+      studies <%= qs.study %>
+    </p>
+    <p style="color: skyblue">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur,
+      accusamus illo debitis expedita molestias facilis ratione ipsa nostrum?
+      Illo praesentium consectetur debitis est nihil consequuntur magnam magni
+      veniam quia ea voluptatibus nisi cumque laboriosam unde aspernatur
+      voluptas, quibusdam nulla delectus. Quae deleniti nemo necessitatibus
+      iure, impedit a in quas, non, excepturi animi blanditiis sit velit
+      praesentium nobis consequatur tenetur at quisquam accusantium sunt optio
+      cupiditate soluta ipsum exercitationem? Accusamus explicabo repudiandae
+      distinctio voluptatum illum doloremque, assumenda at alias sit. Cumque,
+      necessitatibus ducimus doloremque debitis quia iure explicabo id repellat
+      laborum deleniti sunt atque natus? Excepturi molestias minus inventore
+      aliquid expedita!
+    </p>
+    <form action="/contact" method="POST">
+      <label for="person">Enter name of the person: </label>
+      <div></div>
+      <input type="text" id="person" name="person" value="<%= qs.person%>" />
+      <br />
+      <label for="gender">Enter the gender: </label>
+      <div></div>
+
+      <input type="text" id="gender" name="gender" value="<%= qs.gender%>" />
+      <br />
+
+      <label for="age">Enter the age: </label>
+      <div></div>
+
+      <input type="text" id="age" name="age" value="<%= qs.age%>" />
+      <br />
+
+      <label for="study">Enter the study: </label>
+      <div></div>
+
+      <input type="text" id="study" name="study" value="<%= qs.study%>" />
+      <br />
+
+      <button
+        type="submit"
+        style="padding: 20px; border-radius: 15px; background-color: coral"
+      >
+        Let's Go!
+      </button>
+    </form>
+  </body>
+</html>

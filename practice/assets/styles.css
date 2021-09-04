@@ -1,0 +1,14 @@
+h1{
+
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+font-size: larger;
+}
+body{
+
+     text-decoration:overline;
+
+}
+button:hover{
+
+     cursor: pointer;
+}

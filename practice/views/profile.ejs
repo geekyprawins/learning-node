@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node Demo</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+
+  </head>
+  <body style="background-color: darkorchid">
+    <%- include('partials/nav.ejs') %>
+    <h1 style="color: white">Welcome to the profile of <%= person %></h1>
+    <p>
+      Hey <%= person %> is <%= data.age %> years old and he is a <%= data.job %>
+    </p>
+    <h3 style="color: burlywood">Hobbies</h3>
+    <ul style="background-color: cadetblue">
+      <% data.hobbies.forEach(function(item){ %>
+
+      <li><%= item %></li>
+
+      <% }); %>
+    </ul>
+    <p style="color: gold">
+      Heyyy,Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia
+      placeat natus nesciunt optio magnam tenetur pariatur sapiente omnis totam
+      deleniti eaque, at tempora et iure quam a architecto culpa. Facere. Cumque
+      reiciendis soluta excepturi iste. Omnis exercitationem vero ab
+      praesentium, aperiam rerum dicta maxime sed? Quam incidunt, veritatis
+      aperiam labore modi delectus cumque, possimus minima, dignissimos vitae ex
+      sapiente quaerat. Accusantium suscipit ipsa quibusdam. Fugit eos eum
+      facilis aspernatur molestias blanditiis, voluptatem qui veniam modi,
+      temporibus rerum perferendis culpa non, dolor nihil! Voluptatem omnis eos
+      debitis fugit nisi pariatur laudantium? Ducimus, eaque amet. Rem aut
+      consequatur adipisci cupiditate officia officiis, ab qui totam dolorem
+      sed, dolor soluta quasi quos molestiae animi! Adipisci officia
+      reprehenderit velit rerum, voluptates quod quibusdam laboriosam!
+    </p>
+  </body>
+</html>
