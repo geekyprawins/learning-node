@@ -29,4 +29,22 @@ dishRouter
     res.end("Deleting the dishes");
   });
 
-  module.exports = dishRouter;
+dishRouter
+  .route("/:dishId")
+  .get((req, res, next) => {
+    res.end("Sending details of dish: " + req.params.dishId);
+  })
+  .post((req, res, next) => {
+    res.statusCode = 403;
+    res.end("POST not supported");
+  })
+  .put((req, res, next) => {
+    res.write("Updating the dish " + req.params.dishId);
+    res.end(
+      "Will update the dish " + req.body.name + " with " + req.body.description
+    );
+  })
+  .delete((req, res, next) => {
+    res.end("Deleting the dish: " + req.params.dishId);
+  });
+module.exports = dishRouter;
