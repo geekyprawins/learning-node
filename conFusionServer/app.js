@@ -3,6 +3,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var session = require("express-session");
+var FileStore = require("session-file-store");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -33,40 +35,36 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // cookies here
-app.use(cookieParser("123-456-789"));
+// app.use(cookieParser("123-456-789"));
 
+app.use(
+  session({
+    name: "session-id",
+    secret: "123-456-789",
+    saveUninitialized: false,
+    resave: false,
+    store: new FileStore(),
+  })
+);
+
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 // authentication middleware
 function auth(req, res, next) {
+  console.log(req.session);
   console.log("Auth headers: " + req.headers);
   console.log("Cookies: " + req.signedCookies);
-  if (!req.signedCookies.user) {
-    var authHeader = req.headers.authorization;
-    if (!authHeader) {
-      var err = new Error("Not authenticated");
-      res.setHeader("WWW-Authenticate", "Basic");
-      err.status = 401;
-      return next(err);
-    }
-    var auth = new Buffer.from(authHeader.split(" ")[1], "base64")
-      .toString()
-      .split(":");
-    var userName = auth[0];
-    var password = auth[1];
-    if (userName == "admin" && password == "password") {
-      res.cookie("user", "admin", { signed: true });
-      next();
-    } else {
-      var err = new Error("Not authenticated");
-      res.setHeader("WWW-Authenticate", "Basic");
-      err.status = 401;
-      return next(err);
-    }
+  if (!req.session.user) {
+    var err = new Error("Not authenticated");
+
+    err.status = 401;
+    return next(err);
   } else {
-    if (req.signedCookies.user === "admin") {
+    if (req.session.user === "authenticated") {
       next();
     } else {
       var err = new Error("Not authenticated");
-      err.status = 401;
+      err.status = 403;
       return next(err);
     }
   }
@@ -75,8 +73,6 @@ app.use(auth);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/dishes", dishesRouter);
 app.use("/promotions", promotionsRouter);
 app.use("/leaders", leadersRouter);
