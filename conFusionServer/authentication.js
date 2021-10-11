@@ -33,3 +33,10 @@ exports.jwtPassport = passport.use(
   })
 );
 exports.verifyUser = passport.authenticate("jwt", { session: false });
+exports.verifyAdmin = (req, res, next) => {
+  if (req.user.admin) {
+    next();
+  } else {
+    return res.status(403).send("Access Denied");
+  }
+};
