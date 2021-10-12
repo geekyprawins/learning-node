@@ -4,12 +4,13 @@ var User = require("../models/user");
 var passport = require("passport");
 var router = express.Router();
 var authentication = require("../authentication");
+const cors = require("./cors");
 /* GET users listing. */
-router.get("/", function (req, res, next) {
+router.get("/", cors.corsWithOptions, function (req, res, next) {
   res.send("respond with a resource");
 });
 
-router.post("/signup", function (req, res, next) {
+router.post("/signup", cors.corsWithOptions, function (req, res, next) {
   User.register(
     new User({ username: req.body.username }),
     req.body.password,
@@ -44,18 +45,23 @@ router.post("/signup", function (req, res, next) {
   );
 });
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  passport.authenticate("local", (err, user, info) => {
-    var token = authentication.getToken({ _id: req.user._id });
-    res.status(200).json({
-      success: true,
-      token: token,
-      status: "Login successful!",
+router.post(
+  "/login",
+  cors.corsWithOptions,
+  passport.authenticate("local"),
+  (req, res) => {
+    passport.authenticate("local", (err, user, info) => {
+      var token = authentication.getToken({ _id: req.user._id });
+      res.status(200).json({
+        success: true,
+        token: token,
+        status: "Login successful!",
+      });
     });
-  });
-});
+  }
+);
 
-router.get("/logout", (req, res, next) => {
+router.get("/logout", cors.corsWithOptions, (req, res, next) => {
   if (req.session) {
     req.session.destroy();
     res.clearCookie("session-id");
@@ -64,6 +70,15 @@ router.get("/logout", (req, res, next) => {
     var err = new Error("You are not logged in");
     err.status = 403;
     return next(err);
+  }
+});
+
+router.get('/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
+  if (req.user) {
+    var token = authenticate.getToken({_id: req.user._id});
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: true, token: token, status: 'You are successfully logged in!'});
   }
 });
 
